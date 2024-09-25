@@ -19,6 +19,7 @@ const Login = () =>{
             const response = await axios.post("http://localhost:3000/api/user/login", {email, password});
             const {token, role, message} = response.data;
             localStorage.setItem('token', token);
+            localStorage.setItem('role', role)
             setToken(token);
             setRole(role);
             setMessage(message);

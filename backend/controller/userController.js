@@ -9,9 +9,9 @@ const registerCreation = async (req, res) =>{
         const { username, email, mobile, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
         await User.create({ username, email, mobile, password: hashedPassword })
-        res.json({ Message: " User Created Successfully "})
+        res.status(200).json({ Message: " User Created Successfully "})
     } catch (error) {
-        res.json({ error:"Failed Creation"})
+        res.status(404).json({ error:"Email already exist"})
     }
 }
 
@@ -20,7 +20,7 @@ const registerFindCreatedUser = async (req, res) =>{
         const users = await User.find()
         res.json(users)
     } catch (error) {
-        res.json({ Message: "Unable to get Users" })
+        res.status(404).json({ Message: "Unable to get Users" })
     }
 }
 

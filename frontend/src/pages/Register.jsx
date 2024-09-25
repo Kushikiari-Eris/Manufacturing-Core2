@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2"
 
 const Register = () =>{
 
@@ -15,15 +16,22 @@ const Register = () =>{
         e.preventDefault();
         axios.post("http://localhost:3000/api/user/register", {username, email, mobile, password})
         .then(() => {
-            alert('Registration Successfully')
             setUsername('')
             setEmail('')
             setMobile('')
             setPassword('')
+            Swal.fire({
+                icon: "success",
+                title: "User Created Successfully",
+            });
             navigate('/login')
         })
         .catch((error) => {
-            console.log('Unable to Register User')
+            Swal.fire({
+                icon: "error",
+                title: "Failed Creation",
+                text: error.response?.data?.message || "Email Already Exist",
+            })
         })
     }
 
@@ -44,25 +52,25 @@ const Register = () =>{
                         <label className="label">
                             <span className="label-text">Username</span>
                         </label>
-                        <input type="text" placeholder="Username" className="input input-bordered" value={username} onChange={(e) => setUsername(e.target.value)} required  />
+                        <input type="text" placeholder="Username" className="input input-bordered" value={username} onChange={(e) => setUsername(e.target.value)}  />
                     </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input type="email" placeholder="email" className="input input-bordered" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                        <input type="email" placeholder="email" className="input input-bordered" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Mobile</span>
                         </label>
-                        <input type="text" placeholder="Mobile" className="input input-bordered" value={mobile} onChange={(e) => setMobile(e.target.value)} required />
+                        <input type="text" placeholder="Mobile" className="input input-bordered" value={mobile} onChange={(e) => setMobile(e.target.value)} />
                     </div>
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
-                        <input type="password" placeholder="password" className="input input-bordered" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        <input type="password" placeholder="password" className="input input-bordered" value={password} onChange={(e) => setPassword(e.target.value)} />
                         <label className="label">
                             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                         </label>
